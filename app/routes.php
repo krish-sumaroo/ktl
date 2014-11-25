@@ -24,4 +24,11 @@ Route::post('login', ['uses' => 'HomeController@doLogin']);
 
 Route::post('logout', ['uses' => 'HomeController@doLogout']);
 
+
+
+Route::resource('admin', 'AssetController');
+Route::post('admin/products', ['uses' => 'AssetController@products']);
+Route::post('admin/addProduct', ['uses' => 'AssetController@addProduct']);
+
+
 Route::resource('books','BookController');
