@@ -48,6 +48,23 @@ class AssetController extends \BaseController {
 		$data->save();
 	}
 
+	public function uploadTest()
+	{
+		$file = Input::file('file'); // your file upload input field in the form should be named 'file'
+
+		$destinationPath = 'uploads/'.str_random(8);
+		$filename = $file->getClientOriginalName();
+		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
+		$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
+		 
+		return View::make('uploadResponse')->with('status', $uploadSuccess);
+	}
+
+	public function upload()
+	{
+		return View::make('testUpload');
+	}
+
 
 	/**
 	 * Store a newly created resource in storage.

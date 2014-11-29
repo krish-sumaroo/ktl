@@ -40,11 +40,20 @@ class BookController extends \BaseController {
 	 */
 	public function store()
 	{
+		/* hadcoded for now */
+		$catId = 1;
+		$prodId = 2;
+
+
+
 		$book = new Book;
 		$book->title = Input::get('title');
 		$book->author = Input::get('author');
 		$book->year = Input::get('year');
 		$book->price = Input::get('price');
+		$book->user_id = Auth::id();
+		$book->category_id = $catId;
+		$book->product_id = $prodId;
 		$book->save();
 		return Redirect::to('books');
 	}
