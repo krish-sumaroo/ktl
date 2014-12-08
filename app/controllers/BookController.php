@@ -1,11 +1,17 @@
 <?php
 
 class BookController extends \BaseController {
+	private $entity = 'book';
+	public $directory = 'uploads';
+	private $maxImages = 5;
 	
 	public function __construct()
 	{
-		$this->beforeFilter('auth');
+		//$this->beforeFilter('auth');
+
 	}
+
+	
 
 
 	/**
@@ -43,15 +49,18 @@ class BookController extends \BaseController {
 		/* hadcoded for now */
 		$catId = 1;
 		$prodId = 2;
+		$userId = 3;
 
 
 
 		$book = new Book;
+		$book->entity = $this->entity;
 		$book->title = Input::get('title');
 		$book->author = Input::get('author');
 		$book->year = Input::get('year');
 		$book->price = Input::get('price');
-		$book->user_id = Auth::id();
+		//$book->user_id = Auth::id();
+		$book->user_id = $userId;
 		$book->category_id = $catId;
 		$book->product_id = $prodId;
 		$book->save();
@@ -67,7 +76,19 @@ class BookController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$book = Book::find($id);
+
+		$directory = 'uploads/'.md5($this->entity.$id);
+		$files = File::files($directory);
+
+		Log::info('directory =>'.$directory);
+		Log::info('files =>'.print_r($files, true) );
+
+		//$view = View::make('greeting')->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files]);
+		return View::make('books.view')
+			->with('books', $book)
+			->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
+			->nest('upload','upload.widget',['count' => $this->maxImages - count($files)]);
 	}
 
 
