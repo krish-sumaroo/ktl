@@ -78,13 +78,14 @@ class BookController extends \BaseController {
 	{
 		$book = Book::find($id);
 
-		$directory = 'uploads/'.md5($this->entity.$id);
+		$directoryHash = Routines::getHash($this->entity, $id);
+
+		$directory = 'uploads/'.$directoryHash;
 		$files = File::files($directory);
 
-		Log::info('directory =>'.$directory);
-		Log::info('files =>'.print_r($files, true) );
+		// Log::info('directory =>'.$directory);
+		// Log::info('files =>'.print_r($files, true) );
 
-		//$view = View::make('greeting')->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files]);
 		return View::make('books.view')
 			->with('books', $book)
 			->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
@@ -100,7 +101,12 @@ class BookController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		
+	}
+
+	public function upTest()
+	{
+		return View::make('upload.upTest');
 	}
 
 

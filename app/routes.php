@@ -31,7 +31,16 @@ Route::post('admin/products', ['uses' => 'AssetController@products']);
 Route::post('admin/addProduct', ['uses' => 'AssetController@addProduct']);
 
 
-Route::get('upload', ['uses' => 'AssetController@upload']);
+Route::post('upload', ['uses' => 'UploadController@upload']);
+Route::get('books/upTest', ['uses' => 'BookController@upTest']);
 Route::post('uploadTest', ['uses' => 'AssetController@uploadTest']);
 
+Route::post('imageUpload', ['uses' => 'UploadController@upload']);
+
 Route::resource('books','BookController');
+
+
+//Route::controller('post','PostController');
+Route::get('post', ['uses' => 'PostController@index']);
+//Route::get('post/products', ['uses' => 'PostController@products']);
+Route::post('post/products', ['uses' => 'PostController@products']);

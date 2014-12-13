@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"cartalyst/sentry":"2.1.*",
-		"iveoles/image":"dev-master"
+		"iveoles/image":"dev-master",
+		"itsgoingd/clockwork": "1.*"
 	},
 	"autoload": {
 		"classmap": [

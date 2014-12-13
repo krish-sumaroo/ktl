@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('title');
+			$table->string('entity');
 			$table->integer('category_id')->unsigned();
 			$table->foreign('category_id')->references('id')->on('categories');
 			$table->timestamps();

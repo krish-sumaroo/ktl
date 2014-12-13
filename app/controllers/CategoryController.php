@@ -9,7 +9,7 @@ class CategoryController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$categories = Category::all()->lists('title','id');		
 	}
 
 

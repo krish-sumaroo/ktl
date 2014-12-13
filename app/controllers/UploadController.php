@@ -1,11 +1,6 @@
 <?php
 
-class AssetController extends \BaseController {
-
-	public function __construct()
-	{
-		//$this->beforeFilter('auth');
-	}
+class UploadController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -14,11 +9,9 @@ class AssetController extends \BaseController {
 	 */
 	public function index()
 	{
-		$categories = Category::all()->lists('title','id');
-
-		return View::make('admin.product')
-			->with('categories', $categories);
+		//
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -30,39 +23,45 @@ class AssetController extends \BaseController {
 		//
 	}
 
-	public function products()
-	{
-		$catId = 1;
-		$products = Product::where('category_id','=',$catId);		
-		return Response::json($products);		
-	}
-
-	public function addProduct()
-	{
-		$prod = Input::get('prod');
-		$category = Input::get('cat');
-
-		$data = new Product;
-		$data->title = $prod;
-		$data->category_id = $category;
-		$data->save();
-	}
-
-	public function uploadTest()
-	{
-		$file = Input::file('file'); // your file upload input field in the form should be named 'file'
-
-		$destinationPath = 'uploads/'.str_random(8);
-		$filename = $file->getClientOriginalName();
-		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
-		$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
-		 
-		return View::make('uploadResponse')->with('status', $uploadSuccess);
-	}
-
 	public function upload()
 	{
-		return View::make('testUpload');
+		$entity = Input::get('entity');
+		$productId = Input::get('pid');
+		$hash = Input::get('hash');
+		$attr = Input::get('file');
+
+		//check for attr between 1-5
+		//Routines::getHash($entity,$productId) !== $hash
+
+		if( 1 != 1){
+			//attempt to hack
+
+			Log::info('pos');
+
+			/* stop upload and show error */
+		} else {
+			//everything fine proceed to save images
+
+			/** lots of validation to be done here **/
+
+
+
+		//$fileName = $_FILES['afile']['name'];
+		//$fileType = $_FILES['afile']['type'];
+		$fileContent = file_get_contents($_FILES['file'.$attr]['tmp_name']);	
+
+		$destinationPath = 'uploads/'.$hash."/";
+
+		Log::info('directory =>'.$destinationPath);
+
+		$target_file = $destinationPath . basename($_FILES['file'.$attr]["name"]);
+		//$filename = $file->getClientOriginalName();
+		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
+		//$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
+
+		move_uploaded_file($_FILES['file'.$attr]["tmp_name"], $target_file);
+		}
+
 	}
 
 

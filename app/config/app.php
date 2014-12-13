@@ -122,7 +122,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider',
-		'Iveoles\Image\ImageServiceProvider'
+		'Iveoles\Image\ImageServiceProvider',
+		'Clockwork\Support\Laravel\ClockworkServiceProvider'
 
 	),
 
@@ -191,7 +192,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'Image' 		  => 'Iveoles\Image\Facades\Image'
+		'Image' 		  => 'Iveoles\Image\Facades\Image',
+		'Clockwork' 	  => 'Clockwork\Support\Laravel\Facade',
 
 	),
 

@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<title>Books</title>
 		<link rel="stylesheet" type="text/css" href="{{asset('bootstrap/css/bootstrap.css')}}">
+
 	</head>	
 
 	<body>
@@ -23,6 +24,10 @@
 				</div>
 			@endif
 			@yield('content')
+
+			{{ HTML::script('js/jquery.js') }}
+
+			@yield('script')
 		</div>
 	</body>
 </html>
