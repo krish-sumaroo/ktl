@@ -37,7 +37,7 @@ Route::post('uploadTest', ['uses' => 'AssetController@uploadTest']);
 
 Route::post('imageUpload', ['uses' => 'UploadController@upload']);
 
-Route::resource('books','BookController');
+Route::resource('book','BookController');
 
 
 //Route::controller('post','PostController');

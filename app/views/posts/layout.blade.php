@@ -13,10 +13,12 @@ New Post
 	</div>
 </div>
 
-<div>
-	<div id="products" class="btn-group" role="group" aria-label="...">
-	</div>
+<div id="products" class="btn-group" role="group" aria-label="...">
 </div>
+
+<div id="postDet">
+</div>
+
 @stop
 
 @section('script')

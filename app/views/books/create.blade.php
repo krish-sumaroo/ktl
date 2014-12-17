@@ -1,10 +1,3 @@
-@extends('master')
-
-@section('header')
-New Book
-@stop
-
-@section('content')
 {{ HTML::ul($errors->all())}}
 
 {{Form::open(array('url' => 'books'))}}
@@ -32,4 +25,3 @@ New Book
 {{Form::submit('Save', array('class'=>'btn btn-primary'))}}
 
 {{Form::close()}}
-@stop

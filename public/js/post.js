@@ -1,3 +1,5 @@
+var entity;
+
 $(function() {
 
 $('.cat').click(function() {
@@ -13,9 +15,22 @@ $.post( "post/products", {'catId':$(this).data('ref')}, function( data ) {
 	  	console.log(data);
 	  	var html = '';
 	  	$.each(data, function(key,value) {
-		  html += '<button type="button" class="btn btn-default cat" data-ref="'+value+'">'+key+'</button>';
+		  html += '<button type="button" class="btn btn-default prod" data-ref="'+value+'">'+key+'</button>';
 		}); 
 		$('#products').html(html);
 	  },'json');
 });
+
+
+$( "#products" ).on( "click", ".prod", function() {
+  entity = $(this).data('ref');
+
+  $.get(entity+"/create", function(data){
+  	$('#postDet').html(data);
+  });
+});
+
+
+
+
 });
