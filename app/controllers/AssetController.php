@@ -20,6 +20,11 @@ class AssetController extends \BaseController {
 			->with('categories', $categories);
 	}
 
+	public function attributes()
+	{
+		
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

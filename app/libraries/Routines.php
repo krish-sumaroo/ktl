@@ -13,4 +13,9 @@ class Routines {
 	{
 		return File::makeDirectory(self::$pathImages.$path, 0775);
 	}
+
+	public static function addCreatedToSession($array)
+	{
+		Session::push('created', $array);
+	}
 }

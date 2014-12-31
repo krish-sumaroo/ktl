@@ -32,13 +32,17 @@ Route::post('admin/addProduct', ['uses' => 'AssetController@addProduct']);
 
 
 Route::post('upload', ['uses' => 'UploadController@upload']);
-Route::get('books/upTest', ['uses' => 'BookController@upTest']);
+
 Route::post('uploadTest', ['uses' => 'AssetController@uploadTest']);
 
 Route::post('imageUpload', ['uses' => 'UploadController@upload']);
 
 Route::resource('book','BookController');
+Route::get('book/upTest', ['uses' => 'BookController@upTest']);
+Route::post('book/details', ['uses' => 'BookController@show']);
+Route::get('book/details', ['uses' => 'BookController@show']);
 
+Route::resource('tags','TagController');
 
 //Route::controller('post','PostController');
 Route::get('post', ['uses' => 'PostController@index']);

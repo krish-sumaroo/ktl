@@ -64,7 +64,26 @@ class BookController extends \BaseController {
 		$book->category_id = $catId;
 		$book->product_id = $prodId;
 		$book->save();
-		return Redirect::to('books');
+		return Redirect::to('book/details');
+	}
+
+	public function show()
+	{
+		//think of showing the details in a box/well
+		$book = Book::find(Session::get('created.pid'));
+
+		Log::info('sessions =>'.print_r(Session::get('created.pid', true)));
+
+
+
+		print_r(Session::get('created'));
+
+		$directory = 'uploads/'.Session::get('created.hash');
+		$files = File::files($directory);
+		return View::make('books.attributes')
+			->nest('view', 'books.view',['book' => $book])
+			->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
+			->nest('upload','upload.add',['count' => $this->maxImages - count($files), 'defImg' =>'uploads/default.png']);			
 	}
 
 
@@ -74,23 +93,28 @@ class BookController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function attributesX($id)
 	{
 		$book = Book::find($id);
 
-		$directoryHash = Routines::getHash($this->entity, $id);
 
+		/* this can be moved to a helper function */
+		$directoryHash = Routines::getHash($this->entity, $id);
 		$directory = 'uploads/'.$directoryHash;
 		$files = File::files($directory);
 
 		// Log::info('directory =>'.$directory);
-		// Log::info('files =>'.print_r($files, true) );
+		// Log::info('files =>'.print_r($files, true) );i
+
+		Log::info('sessions =>'.print_r(Session::get('created', true)));
 
 		return View::make('books.view')
 			->with('books', $book)
 			->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
-			->nest('upload','upload.widget',['count' => $this->maxImages - count($files)]);
+			->nest('upload','upload.widget',['count' => $this->maxImages - count($files)]);			
 	}
+
+
 
 
 	/**

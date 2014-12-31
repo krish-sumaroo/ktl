@@ -6,3 +6,7 @@ body{
 	width: 400px;
 	margin: 0 auto;
 }
+
+.highlight{
+	color:yellow;
+}

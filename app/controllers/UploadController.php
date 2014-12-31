@@ -30,37 +30,39 @@ class UploadController extends \BaseController {
 		$hash = Input::get('hash');
 		$attr = Input::get('file');
 
-		//check for attr between 1-5
-		//Routines::getHash($entity,$productId) !== $hash
-
-		if( 1 != 1){
-			//attempt to hack
-
-			Log::info('pos');
-
-			/* stop upload and show error */
-		} else {
-			//everything fine proceed to save images
-
-			/** lots of validation to be done here **/
 
 
-
+		$hash = Session::get('created.hash');
 		//$fileName = $_FILES['afile']['name'];
 		//$fileType = $_FILES['afile']['type'];
-		$fileContent = file_get_contents($_FILES['file'.$attr]['tmp_name']);	
+		$fileContent = file_get_contents($_FILES['file']['tmp_name']);
+		$actualFile = $_FILES['file']['name'];
 
 		$destinationPath = 'uploads/'.$hash."/";
 
-		Log::info('directory =>'.$destinationPath);
+		//$image = Image::create($fileContent);
+		//$image->resize(400, 300, 1);
+		
 
-		$target_file = $destinationPath . basename($_FILES['file'.$attr]["name"]);
+		//Log::info('directory =>'.$destinationPath);
+		Log::info('extension =>'.pathinfo($actualFile, PATHINFO_EXTENSION));
+
+		//$target_file = $destinationPath . basename($_FILES['file'.$attr]["name"]);
+		$target_file = $destinationPath.str_random(10).'.'.pathinfo($actualFile, PATHINFO_EXTENSION);
+		//$image->save($target_file);
+		//str_random(10) ->generates a random string
+
+
 		//$filename = $file->getClientOriginalName();
 		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
 		//$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
 
 		move_uploaded_file($_FILES['file'.$attr]["tmp_name"], $target_file);
-		}
+
+		//resize image
+		//resizingImage;
+		
+
 
 	}
 

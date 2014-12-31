@@ -4,7 +4,10 @@
 		<meta charset="UTF-8">
 		<title>Books</title>
 		<link rel="stylesheet" type="text/css" href="{{asset('bootstrap/css/bootstrap.css')}}">
-
+		<link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+		<script>
+		var root_url = "<?php echo Request::root(); ?>/";
+		</script>
 	</head>	
 
 	<body>
@@ -12,7 +15,7 @@
 
 			{{Form::open(array('url' => 'logout'))}}
 
-			{{Form::submit('Logout', array('class'=>'btn btn-primary'))}}
+			<!-- {{Form::submit('Logout', array('class'=>'btn btn-primary'))}} -->
 
 			{{Form::close()}}
 			<div class="page-header">

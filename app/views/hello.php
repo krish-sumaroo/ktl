@@ -40,3 +40,21 @@
 	</div>
 </body>
 </html>
+
+
+
+<?php //print_r($book); ?>
+<ul class="list-group">
+	<!--
+  <li class="list-group-item list-group-item-success">Title : {{$book['title']}}</li>
+  
+  <li class="list-group-item list-group-item-info">Author : {{$author}}</li>
+  <li class="list-group-item list-group-item-warning">Published : {{$published}}</li>
+  <li class="list-group-item list-group-item-danger">Price : {{$price}}</li>
+
+</ul>
+
+{{$gallery}}
+
+{{$upload}}
+-->

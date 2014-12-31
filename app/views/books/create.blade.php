@@ -1,6 +1,14 @@
+@extends('master')
+
+@section('header')
+<h3><span class="label label-primary">New Book</span></h3>
+@stop
+
+
+@section('content')
 {{ HTML::ul($errors->all())}}
 
-{{Form::open(array('url' => 'books'))}}
+{{Form::open(array('url' => 'book'))}}
 
 <div class="form-group">
 	{{Form::label('title', 'Title')}}
@@ -25,3 +33,4 @@
 {{Form::submit('Save', array('class'=>'btn btn-primary'))}}
 
 {{Form::close()}}
+@stop
