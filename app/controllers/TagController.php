@@ -9,10 +9,23 @@ class TagController extends \BaseController {
 	 */
 	public function index()
 	{
+		/*
 		$tags = Tag::where('entity', '=', 'book')
 		->orderBy('title')
         ->get();
 
+		return View::make('tags.index')
+			->with('tags', $tags);
+			*/
+	}
+
+	public function all()
+	{
+		$tags = Tag::where('entity', '=', 'book')
+		->orderBy('title')
+        ->get();
+
+echo "s";
 		return View::make('tags.index')
 			->with('tags', $tags);
 	}

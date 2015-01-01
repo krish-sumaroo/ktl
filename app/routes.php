@@ -42,7 +42,8 @@ Route::get('book/upTest', ['uses' => 'BookController@upTest']);
 Route::post('book/details', ['uses' => 'BookController@show']);
 Route::get('book/details', ['uses' => 'BookController@show']);
 
-Route::resource('tags','TagController');
+//Route::resource('tags','TagController');
+Route::get('tags/list', ['uses' => 'TagController@all']);
 
 //Route::controller('post','PostController');
 Route::get('post', ['uses' => 'PostController@index']);
