@@ -48,3 +48,7 @@ Route::resource('tags','TagController');
 Route::get('post', ['uses' => 'PostController@index']);
 //Route::get('post/products', ['uses' => 'PostController@products']);
 Route::post('post/products', ['uses' => 'PostController@products']);
+
+Route::resource('magazine','MagazineController');
+Route::post('book/details', ['uses' => 'MagazineController@show']);
+Route::get('book/details', ['uses' => 'MagazineController@show']);
