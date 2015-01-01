@@ -1,8 +1,3 @@
-@extends('master')
-
-
-
-@section('content')
 <div class="panel panel-success">
 	<div class="panel-heading">
 		<h3 class="panel-title">Tags</h3>
@@ -26,9 +21,3 @@
 	</h4>
   </div>  
 </div>
-
-@stop	
-
-@section('script')
-{{ HTML::script('js/tag.js') }}
-@stop

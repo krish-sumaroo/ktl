@@ -10,6 +10,7 @@
 {{$gallery}}
 {{$upload}}
 </div>
+{{$tag}}
 
 <!-- tag here -->
 
@@ -17,4 +18,5 @@
 
 @section('script')
 {{ HTML::script('js/upload.js') }}
+{{ HTML::script('js/tag.js') }}
 @stop

@@ -11,7 +11,15 @@
 |
 */
 
+/*
 Route::get('/', function()
+{
+	return View::make('hello');
+});
+*/
+
+//error
+Route::get('hello', function()
 {
 	return View::make('hello');
 });
@@ -23,8 +31,6 @@ Route::get('login', ['uses' => 'HomeController@showLogin']);
 Route::post('login', ['uses' => 'HomeController@doLogin']);
 
 Route::post('logout', ['uses' => 'HomeController@doLogout']);
-
-
 
 Route::resource('admin', 'AssetController');
 Route::post('admin/products', ['uses' => 'AssetController@products']);
@@ -40,7 +46,7 @@ Route::post('imageUpload', ['uses' => 'UploadController@upload']);
 Route::resource('book','BookController');
 Route::get('book/upTest', ['uses' => 'BookController@upTest']);
 Route::post('book/details', ['uses' => 'BookController@show']);
-Route::get('book/details', ['uses' => 'BookController@show']);
+Route::get('book/details/{id}', ['uses' => 'BookController@show']);
 
 //Route::resource('tags','TagController');
 Route::get('tags/list', ['uses' => 'TagController@all']);

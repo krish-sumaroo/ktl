@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class BookController extends \BaseController {
 	private $entity = 'book';
 	public $directory = 'uploads';
@@ -64,26 +66,37 @@ class BookController extends \BaseController {
 		$book->category_id = $catId;
 		$book->product_id = $prodId;
 		$book->save();
-		return Redirect::to('book/details');
+		return Redirect::to('book/details/'.$book->id);
 	}
 
-	public function show()
+	public function show($id)
 	{
-		//think of showing the details in a box/well
-		$book = Book::find(Session::get('created.pid'));
+		try
+		{
+			$book = Book::findOrFail($id);
 
-		Log::info('sessions =>'.print_r(Session::get('created.pid', true)));
+			//get tags
+			$tags = Tag::where('entity', '=', $this->entity)->orderBy('title')->get();		
+			$hash = Routines::getHash($this->entity, $id);
+			$directory = 'uploads/'.$hash;
 
+			//sessions value for updates
+			Session::put('created.hash', $hash);
+			Session::put('created.id', $id);
 
-
-		print_r(Session::get('created'));
-
-		$directory = 'uploads/'.Session::get('created.hash');
-		$files = File::files($directory);
-		return View::make('books.attributes')
-			->nest('view', 'books.view',['book' => $book])
-			->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
-			->nest('upload','upload.add',['count' => $this->maxImages - count($files), 'defImg' =>'uploads/default.png']);			
+			print_r(Session::all());
+			
+			$files = File::files($directory);
+			return View::make('books.attributes')
+				->nest('view', 'books.view',['book' => $book])
+				->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
+				->nest('upload','upload.add',['count' => $this->maxImages - count($files), 'defImg' =>'uploads/default.png'])
+				->nest('tag','tags.index',['tags' => $tags]);
+		}
+		catch(ModelNotFoundException $e)
+		{
+		    return Redirect::to('hello');
+		}	
 	}
 
 
