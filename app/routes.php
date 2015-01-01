@@ -42,6 +42,7 @@ Route::post('upload', ['uses' => 'UploadController@upload']);
 Route::post('uploadTest', ['uses' => 'AssetController@uploadTest']);
 
 Route::post('imageUpload', ['uses' => 'UploadController@upload']);
+Route::post('imageDelete', ['uses' => 'UploadController@remove']);
 
 Route::resource('book','BookController');
 Route::get('book/upTest', ['uses' => 'BookController@upTest']);

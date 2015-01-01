@@ -3,7 +3,7 @@
     <div class="thumbnail">
       {{ HTML::image($defImg, 'default', array('class' => 'thumb', 'width' => '150')) }}
       <div class="caption delBox hidden">
-        <a href="#" class="btn btn-primary" role="button" class="delImage" data-ref="{{$defImg}}">Delete</a>
+        <a href="#" class="btn btn-primary delImage" role="button" data-ref="{{$defImg}}">Delete</a>
       </div>
       <div class="caption addBox">
         <input type="file" name="file" class="imagesUp" accept="image/*"/>

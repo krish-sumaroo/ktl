@@ -3,10 +3,10 @@
     <div class="thumbnail">
       {{ HTML::image($file, 'a picture', array('class' => 'thumb', 'width' => '150')) }}
       <div class="caption delBox">
-        <a href="#" class="btn btn-primary" role="button" class="delImage" data-ref="{{$file}}">Delete</a>
+        <a href="#" class="btn btn-primary delImage" role="button" data-ref="{{$file}}">Delete</a>
       </div>
       <div class="caption addBox hidden">
-        <input type="file" name="file" class="images" accept="image/*"/>
+        <input type="file" name="file" class="imagesUp" accept="image/*"/>
       </div>
     </div>
   </div>

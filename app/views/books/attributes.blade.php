@@ -6,7 +6,7 @@
 @section('content')
 
 {{$view}}
-<div class="row">
+<div class="row" id="assets">
 {{$gallery}}
 {{$upload}}
 </div>

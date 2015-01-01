@@ -125,5 +125,17 @@ class UploadController extends \BaseController {
 		//
 	}
 
+	public function remove()
+	{
+		$file = Input::get('img');
+		//$hash = Session::get('created.hash');
+
+		//$file = 'uploads/'.$hash.'/.'.$imgName;
+		File::delete($file);
+
+		//check if it was deleted
+		    //File::exists();
+	}
+
 
 }

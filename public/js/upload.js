@@ -1,4 +1,9 @@
-document.querySelector('.imagesUp').addEventListener('change', function(e) {
+$(function() {
+
+
+  $( "#assets" ).on( "change", ".imagesUp", function() {
+
+//document.querySelector('.imagesUp').addEventListener('change', function(e) {
 
   console.log(this.files);
 
@@ -33,4 +38,17 @@ document.querySelector('.imagesUp').addEventListener('change', function(e) {
   };
 
   xhr.send(fd);
-}, false);
+//}, false);
+});
+
+$( "#assets" ).on( "click", ".delImage", function() {
+  //ajax to remove from post ->with $(this).data('ref');
+  $.post( root_url+'imageDelete', {'img':$(this).data('ref')}, function( data ) {
+      console.log(data);
+     
+    },'json');
+
+  console.log($(this).data('ref'));
+});
+
+});
