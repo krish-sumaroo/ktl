@@ -4,11 +4,19 @@ class Tag extends Eloquent
 {
 	protected $table = 'tags';
 
-/*
-	public function products()
-	{
-		return $this->hasMany('Product');
-	}
-	*/
+public function scopeEntity($query, $entity)
+    {
+        return $query->where('entity', '=', $entity);
+    }
+
+public function scopeValidated($query)
+{
+    return $query->whereStatus(1);
+}
+
+public function scopeTitle($query, $title)
+{
+	return$query->whereTitle($title);
+}
 	
 }

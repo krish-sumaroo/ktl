@@ -76,16 +76,18 @@ class BookController extends \BaseController {
 			$book = Book::findOrFail($id);
 
 			//get tags
-			$tags = Tag::where('entity', '=', $this->entity)->orderBy('title')->get();		
+			$tags = Tag::entity('book')->validated()->orderBy('title')->get();	
+			
 			$hash = Routines::getHash($this->entity, $id);
 			$directory = 'uploads/'.$hash;
 
 			//sessions value for updates
 			Session::put('created.hash', $hash);
 			Session::put('created.id', $id);
+			Session::put('created.entity', $this->entity);
 
 			print_r(Session::all());
-			
+
 			$files = File::files($directory);
 			return View::make('books.attributes')
 				->nest('view', 'books.view',['book' => $book])

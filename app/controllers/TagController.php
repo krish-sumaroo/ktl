@@ -21,11 +21,15 @@ class TagController extends \BaseController {
 
 	public function all()
 	{
+		/*
 		$tags = Tag::where('entity', '=', 'book')
 		->orderBy('title')
         ->get();
+        */
 
-echo "s";
+        $tags = Tag::entity('book')->validated()->orderBy('title')->get();
+
+        //$users = User::popular()->women()->orderBy('created_at')->get();
 		return View::make('tags.index')
 			->with('tags', $tags);
 	}
@@ -42,19 +46,26 @@ echo "s";
 	}
 
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
+
+	public function add()
 	{
-		$tag = new Tag();
-		$tag->entity = 'book';
-		$tag->title = Input::get('title');
-		//$tag->title = 'wgat';
-		$tag->save();
-		return Redirect::to('tags');
+		$response = array();
+
+		$tgExist = Tag::entity(Session::get('created.entity'))->title(Input::get('title'))->first();
+		
+		
+		if (!$tgExist){
+		 	$tag = new Tag();
+			$tag->entity = Session::get('created.entity');
+			$tag->title = Input::get('title');
+			$tag->save();
+			$response['status'] = 0;
+		} else {
+			$response['status'] = 1;
+			$response['msg'] = 'Already exists';
+		}
+
+		return Response::json($response);		
 	}
 
 
@@ -67,6 +78,19 @@ echo "s";
 	public function show($id)
 	{
 		//
+	}
+
+	public function testView()
+	{
+		$tgExist = Tag::entity('book')->title('testX')->first();
+
+		if($tgExist)
+		{
+			echo "value";
+		} else {
+			echo "no value";
+		}
+
 	}
 
 

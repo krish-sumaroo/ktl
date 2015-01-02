@@ -29,6 +29,7 @@
 			@yield('content')
 
 			{{ HTML::script('js/jquery.js') }}
+			{{ HTML::script('bootstrap/js/bootstrap.js') }}
 
 			@yield('script')
 		</div>
