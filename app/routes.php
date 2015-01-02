@@ -53,6 +53,10 @@ Route::get('book/details/{id}', ['uses' => 'BookController@show']);
 Route::get('tags/list', ['uses' => 'TagController@all']);
 Route::post('tags/add',['uses' => 'TagController@add']);
 Route::get('tags/test', ['uses' => 'TagController@testView']);
+Route::post('tags/validate', ['uses' => 'TagController@validateSave']);
+Route::post('tags/decline', ['uses' => 'TagController@decline']);
+
+Route::get('tags/admin', ['uses' => 'TagController@validate']);
 
 //Route::controller('post','PostController');
 Route::get('post', ['uses' => 'PostController@index']);

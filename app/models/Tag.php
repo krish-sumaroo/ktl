@@ -16,7 +16,12 @@ public function scopeValidated($query)
 
 public function scopeTitle($query, $title)
 {
-	return$query->whereTitle($title);
+	return $query->whereTitle($title);
+}
+
+public function scopeNotvalidated($query)
+{
+	return $query->whereStatus(0);
 }
 	
 }

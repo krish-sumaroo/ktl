@@ -34,6 +34,19 @@ class TagController extends \BaseController {
 			->with('tags', $tags);
 	}
 
+	public function validate()
+	{
+		$tags = Tag::notvalidated()->orderBy('title')->get();;
+		return View::make('tags.admin')->with('tagsAdmin', $tags);
+	}
+
+	public function validateSave()
+	{
+		$tag = Tag::find(Input::get('id'));
+		$tag->status = 1;
+		$tag->save();
+	}
+
 
 	/**
 	 * Show the form for creating a new resource.
