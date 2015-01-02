@@ -4,7 +4,7 @@
 <h3><span class="label label-primary">New Book</span></h3>
 @stop
 
-
+<!-- test -->
 @section('content')
 {{ HTML::ul($errors->all())}}
 
