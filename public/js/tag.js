@@ -4,7 +4,7 @@ $("#tgAdd").popover({
     placement: 'bottom',
     html: 'true',
     title : 'New Tag',
-    content : "<input type='text' id='tgVal' size='10' /> <button type='button' id='tgSave' class='btn btn-primary btn-sm'>Save</button>"
+    content : "<input type='text' id='tgVal' size='10' /> <button type='button' id='tgSave' class='btn btn-primary btn-sm'>Save</button><span class='label label-danger' id='tgMsg'></span>"
   });
 
 
@@ -40,12 +40,13 @@ $('#mainTags').on('click','#tgSave', function (){
 		if(data.status == 0)
 		{
 			//saved fine
-			$('#tgAdd').popover('hide')
+			$('#tgMsg').html('');
+			$('#tgAdd').popover('hide');
 			$('#tgAdd').html('<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add').removeClass('tgDismiss');
 			$('#tgVal').val('');
 		} else {
 			//show error
-			alert(data.msg);
+			$('#tgMsg').html(data.msg);
 		}
     },'json');
 });
