@@ -60,6 +60,7 @@ class TagController extends \BaseController {
 			$tag->title = Input::get('title');
 			$tag->save();
 			$response['status'] = 0;
+			$response['id'] = $tag->id;
 		} else {
 			$response['status'] = 1;
 			$response['msg'] = 'Already exists';
