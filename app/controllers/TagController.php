@@ -47,6 +47,11 @@ class TagController extends \BaseController {
 		$tag->save();
 	}
 
+	public function decline()
+	{
+		$tag = Tag::find(Input::get('id'));
+		$tag->delete();
+	}
 
 	/**
 	 * Show the form for creating a new resource.
