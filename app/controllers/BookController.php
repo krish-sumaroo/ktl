@@ -10,7 +10,7 @@ class BookController extends \BaseController {
 	public function __construct()
 	{
 		//$this->beforeFilter('auth');
-
+		//$productDetails = Product::entity($this->entity)->first();
 	}
 
 	
@@ -23,7 +23,7 @@ class BookController extends \BaseController {
 	 */
 	public function index()
 	{
-		$books = Book::all();
+		$books = Book::orderBy('created_at', 'desc')->get();
 
 		return View::make('books.index')
 			->with('books', $books);
@@ -53,24 +53,60 @@ class BookController extends \BaseController {
 		$prodId = 2;
 		$userId = 3;
 
-
+		//transaction here -->
 
 		$book = new Book;
 		$book->entity = $this->entity;
 		$book->title = Input::get('title');
 		$book->author = Input::get('author');
 		$book->year = Input::get('year');
+
+
+
+
+
 		$book->price = Input::get('price');
 		//$book->user_id = Auth::id();
 		$book->user_id = $userId;
 		$book->category_id = $catId;
 		$book->product_id = $prodId;
 		$book->save();
+
+		$post = new Post;
+		$post->user_id = $userId;
+		$post->posting_id = $book->id;
+		$post->entity = $this->entity;
+		$post->save();
 		return Redirect::to('book/details/'.$book->id);
 	}
 
 	public function show($id)
 	{
+		try
+		{
+			$book = Book::findOrFail($id);
+			$hash = Routines::getHash($this->entity, $id);
+			$directory = 'uploads/'.$hash;
+			$files = File::files($directory);
+
+			return View::make('posts.index')
+				->nest('view', 'books.view',['book' => $book])
+				->nest('gallery', 'upload.galleryView', ['url' => $directory, 'files' => $files]);
+
+
+		} catch(ModelNotFoundException $e) {
+			return Redirect::to('hello');
+		}
+	}
+
+
+	public function details($id)
+	{
+
+		//need to check if owner or not.
+		//if owner show edit else show view
+
+
 		try
 		{
 			$book = Book::findOrFail($id);
@@ -101,6 +137,15 @@ class BookController extends \BaseController {
 		}	
 	}
 
+
+//query to get all posts with tags/users/fav
+	/*
+	SELECT * FROM `books` b
+left join tags_post t
+on b.id = t.entity_id
+and t.entity = 'book'
+join users u on u.id = b.user_id
+*/
 
 	/**
 	 * Display the specified resource.

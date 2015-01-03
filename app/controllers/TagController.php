@@ -36,7 +36,7 @@ class TagController extends \BaseController {
 
 	public function validate()
 	{
-		$tags = Tag::notvalidated()->orderBy('title')->get();;
+		$tags = Tag::notvalidated()->orderBy('title')->get();
 		return View::make('tags.admin')->with('tagsAdmin', $tags);
 	}
 
@@ -45,6 +45,8 @@ class TagController extends \BaseController {
 		$tag = Tag::find(Input::get('id'));
 		$tag->status = 1;
 		$tag->save();
+
+		//need to add to all posts also
 	}
 
 	public function decline()
@@ -64,6 +66,34 @@ class TagController extends \BaseController {
 	}
 
 
+	public function saveToPost()
+	{
+		$response = array();
+
+		$newId = $this->_saveToPost(Input::get('element'));
+		$response['id'] = $newId;
+
+		$tagName = Tag::find(Input::get('element'));
+
+		$entity = ucfirst(Session::get('created.entity'));
+		$entityDetails = $entity::find(Session::get('created.id'));
+		$entityDetails->tags = $entityDetails->tags.','.$tagName->title;
+		$entityDetails->save();	
+
+		return Response::json($response);		
+	}
+
+	private function _saveToPost($tagId)
+	{
+		$tagPost = new Tagpost;
+		$tagPost->entity = Session::get('created.entity');
+		$tagPost->entity_id = Session::get('created.id');
+		$tagPost->tag_id = $tagId;
+		$tagPost->save();
+		return $tagPost->id;
+	}
+
+
 
 	public function add()
 	{
@@ -77,8 +107,14 @@ class TagController extends \BaseController {
 			$tag->entity = Session::get('created.entity');
 			$tag->title = Input::get('title');
 			$tag->save();
+
+			$post = $this->_saveToPost($tag->id);
 			$response['status'] = 0;
 			$response['id'] = $tag->id;
+			$reponse['postId'] = $post;
+
+
+			//decouple the function to add to tag_post and call here
 		} else {
 			$response['status'] = 1;
 			$response['msg'] = 'Already exists';

@@ -8,7 +8,7 @@
   <div class="panel-body">
     <h4 id="allTags">
 		@foreach($tags as $key=>$value)
-		<span class="label label-success tags" id="tag_{{$value->id}}">{{$value->title}}</span>
+		<span class="label label-success tags" id="tag_{{$value->id}}" data-element="{{$value->id}}">{{$value->title}}</span>
 		@endforeach
 	</h4>
   </div>  

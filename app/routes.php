@@ -36,6 +36,10 @@ Route::resource('admin', 'AssetController');
 Route::post('admin/products', ['uses' => 'AssetController@products']);
 Route::post('admin/addProduct', ['uses' => 'AssetController@addProduct']);
 
+//posts
+Route::get('articles/{entity?}', ['uses' => 'PostController@listAll']);
+Route::get('articles/sex', ['uses' => 'PostController@test']);
+
 
 Route::post('upload', ['uses' => 'UploadController@upload']);
 
@@ -47,14 +51,16 @@ Route::post('imageDelete', ['uses' => 'UploadController@remove']);
 Route::resource('book','BookController');
 Route::get('book/upTest', ['uses' => 'BookController@upTest']);
 Route::post('book/details', ['uses' => 'BookController@show']);
-Route::get('book/details/{id}', ['uses' => 'BookController@show']);
+Route::get('book/details/{id}', ['uses' => 'BookController@details']);
 
 //Route::resource('tags','TagController');
+//TAGS
 Route::get('tags/list', ['uses' => 'TagController@all']);
 Route::post('tags/add',['uses' => 'TagController@add']);
 Route::get('tags/test', ['uses' => 'TagController@testView']);
 Route::post('tags/validate', ['uses' => 'TagController@validateSave']);
 Route::post('tags/decline', ['uses' => 'TagController@decline']);
+Route::post('tags/addPost', ['uses' => 'TagController@saveToPost']);
 
 Route::get('tags/admin', ['uses' => 'TagController@validate']);
 

@@ -22,6 +22,9 @@ $( "#allTags" ).on( "click", ".tags", function() {
 	$('#chTag').append('<span class="label label-primary tagsIn" data-ref="'+$(this).prop('id')+'">'+$(this).html()+'</span>');
 
 	//ajax to save to post
+	saveTags($(this).data('element'));
+	
+
 
 });
 
@@ -49,6 +52,8 @@ $('#mainTags').on('click','#tgSave', function (){
 			//add to basket
 			$('#chTag').append('<span class="label label-warning tagsIn" data-ref="tag_'+data.id+'">'+title+'</span>');
 			$('#allTags').append('<span class="label label-warning tags" id="tag_'+data.id+'" style="display:none;">'+title+'</span>');
+
+
 		} else {
 			//show error
 			$('#tgMsg').html(data.msg);
@@ -71,3 +76,10 @@ $('#tgAdd').click(function (){
 //goes for review and validate to add to tag pool
 
 });
+
+function saveTags(id)
+{
+	$.post( root_url+'tags/addPost', {'element':id}, function( data ) { 
+
+	});
+}
