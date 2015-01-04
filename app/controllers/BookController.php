@@ -23,10 +23,13 @@ class BookController extends \BaseController {
 	 */
 	public function index()
 	{
+
+		$this->entity;
 		$books = Book::orderBy('created_at', 'desc')->get();
 
 		return View::make('books.index')
-			->with('books', $books);
+			->with('books', $books)
+			->with('entity', $this->entity);
 	}
 
 
@@ -163,7 +166,7 @@ join users u on u.id = b.user_id
 		$directory = 'uploads/'.$directoryHash;
 		$files = File::files($directory);
 
-		// Log::info('directory =>'.$directory);
+	 	//Log::info('directory =>'.$directory);
 		// Log::info('files =>'.print_r($files, true) );i
 
 		Log::info('sessions =>'.print_r(Session::get('created', true)));

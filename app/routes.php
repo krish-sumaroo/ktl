@@ -61,7 +61,6 @@ Route::get('tags/test', ['uses' => 'TagController@testView']);
 Route::post('tags/validate', ['uses' => 'TagController@validateSave']);
 Route::post('tags/decline', ['uses' => 'TagController@decline']);
 Route::post('tags/addPost', ['uses' => 'TagController@saveToPost']);
-
 Route::get('tags/admin', ['uses' => 'TagController@validate']);
 
 //Route::controller('post','PostController');
@@ -69,6 +68,10 @@ Route::get('post', ['uses' => 'PostController@index']);
 //Route::get('post/products', ['uses' => 'PostController@products']);
 Route::post('post/products', ['uses' => 'PostController@products']);
 
+//MAGAZINES
 Route::resource('magazine','MagazineController');
-Route::post('book/details', ['uses' => 'MagazineController@show']);
-Route::get('book/details', ['uses' => 'MagazineController@show']);
+Route::post('magazine/details', ['uses' => 'MagazineController@show']);
+Route::get('magazine/details', ['uses' => 'MagazineController@show']);
+
+//FAVOURITES
+Route::post('fav/AddFavourite', ['uses' => 'FavouriteController@store']);

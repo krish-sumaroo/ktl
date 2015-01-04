@@ -9,8 +9,15 @@ All books
 <div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<a href="{{Request::url()}}/{{$value->id}}">{{$value->title}}</a>			
+			<a href="{{Request::url()}}/{{$value->id}}">{{$value->title}}</a>
+			<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-danger removeFav " style="float: right;margin-left: 10px;">
+  				<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+			</button>
+			<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-success addFav " style="float: right;">
+  				<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+			</button>
 		</h3>
+		
 	</div>
   	<div class="panel-body">
 	    <div>
@@ -31,5 +38,10 @@ All books
 	    </div>
   	</div>  
 </div>
+<input id = "entity" type="hidden" name="entity" value="{{$entity}}" />
 @endforeach
+@stop
+
+@section('script')
+{{ HTML::script('js/favourite.js') }}
 @stop
