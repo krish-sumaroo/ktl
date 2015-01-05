@@ -73,11 +73,11 @@ class TagController extends \BaseController {
 		$newId = $this->_saveToPost(Input::get('element'));
 		$response['id'] = $newId;
 
-		$tagName = Tag::find(Input::get('element'));
+		//$tagName = Tag::find(Input::get('element'));
 
 		$entity = ucfirst(Session::get('created.entity'));
 		$entityDetails = $entity::find(Session::get('created.id'));
-		$entityDetails->tags = $entityDetails->tags.','.$tagName->title;
+		$entityDetails->tags = $entityDetails->tags.','.Input::get('element');
 		$entityDetails->save();	
 
 		return Response::json($response);		
@@ -91,6 +91,23 @@ class TagController extends \BaseController {
 		$tagPost->tag_id = $tagId;
 		$tagPost->save();
 		return $tagPost->id;
+	}
+
+	public function removeFromPost()
+	{
+		$this->_deleteFromPost(Input::get('element'));
+
+		$entity = ucfirst(Session::get('created.entity'));
+		$entityDetails = $entity::find(Session::get('created.id'));
+		$newTag = str_replace(','.Input::get('element'), '', $entityDetails->tags);
+		$entityDetails->tags = $newTag;
+		$entityDetails->save();
+	}
+
+	private function _deleteFromPost($tagId)
+	{
+		$cond = ['entity' => Session::get('created.entity'), 'entity_id' => Session::get('created.id'), 'tag_id' => $tagId];
+		Tagpost::where($cond)->delete();
 	}
 
 

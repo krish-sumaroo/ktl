@@ -27,9 +27,18 @@ class BookController extends \BaseController {
 		$this->entity;
 		$books = Book::orderBy('created_at', 'desc')->get();
 
+		//search components here
+		// using only tags for now
+		// means to define all ranges for sliders, generic search form
+
+		$tags = Tag::entity('book')->validated()->orderBy('title')->lists('title','id');
+
+
 		return View::make('books.index')
 			->with('books', $books)
-			->with('entity', $this->entity);
+			->with('entity', $this->entity)
+			->with('tagsVals', $tags)
+			->nest('search', 'search.page', ['tags' => $tags]);
 	}
 
 
@@ -116,7 +125,7 @@ class BookController extends \BaseController {
 
 			//get tags
 			$tags = Tag::entity('book')->validated()->orderBy('title')->get();	
-			
+
 			$hash = Routines::getHash($this->entity, $id);
 			$directory = 'uploads/'.$hash;
 
@@ -132,7 +141,7 @@ class BookController extends \BaseController {
 				->nest('view', 'books.view',['book' => $book])
 				->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
 				->nest('upload','upload.add',['count' => $this->maxImages - count($files), 'defImg' =>'uploads/default.png'])
-				->nest('tag','tags.index',['tags' => $tags]);
+				->nest('tag','tags.index2',['tags' => $tags,'savedTags' => $book->tags]);
 		}
 		catch(ModelNotFoundException $e)
 		{

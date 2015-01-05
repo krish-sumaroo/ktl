@@ -61,6 +61,7 @@ Route::get('tags/test', ['uses' => 'TagController@testView']);
 Route::post('tags/validate', ['uses' => 'TagController@validateSave']);
 Route::post('tags/decline', ['uses' => 'TagController@decline']);
 Route::post('tags/addPost', ['uses' => 'TagController@saveToPost']);
+Route::post('tags/rmPost', ['uses' => 'TagController@removeFromPost']);
 Route::get('tags/admin', ['uses' => 'TagController@validate']);
 
 //Route::controller('post','PostController');
