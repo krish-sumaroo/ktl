@@ -6,6 +6,8 @@ $('.addFav').click(function() {
 	
 	//ajax to enable	
 	$.post(root_url+'fav/addFavourite', {'itemId':$(this).data('item'), 'entity':$('#entity').val()}, function( data ) {
+		//element.removeClass( "btn-success addFav" ).addClass( "btn-danger removeFav" );
+		//bug need to correct
 		element.parent().children('.addFav').hide();
 		element.parent().children('.removeFav').show();
 	});
@@ -17,6 +19,8 @@ $('.removeFav').click(function() {
 	var element = $(this);
 	//ajax to enable	
 	$.post(root_url+'fav/delFavourite', {'itemId':$(this).data('item'), 'entity':$('#entity').val()}, function( data ) {
+		//element.removeClass( "btn-danger removeFav" ).addClass( "btn-success addFav" );
+		//bug need to correct
 		element.parent().children('.removeFav').hide();
 		element.parent().children('.addFav').show();
 	});
