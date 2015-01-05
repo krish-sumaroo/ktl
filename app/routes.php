@@ -75,4 +75,5 @@ Route::post('magazine/details', ['uses' => 'MagazineController@show']);
 Route::get('magazine/details', ['uses' => 'MagazineController@show']);
 
 //FAVOURITES
-Route::post('fav/AddFavourite', ['uses' => 'FavouriteController@store']);
+Route::post('fav/addFavourite', ['uses' => 'FavouriteController@store']);
+Route::post('fav/delFavourite', ['uses' => 'FavouriteController@destroy']);
