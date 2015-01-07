@@ -48,11 +48,12 @@ Route::post('uploadTest', ['uses' => 'AssetController@uploadTest']);
 Route::post('imageUpload', ['uses' => 'UploadController@upload']);
 Route::post('imageDelete', ['uses' => 'UploadController@remove']);
 
-Route::resource('book','BookController');
+//Route::resource('book','BookController');
 Route::get('book/upTest', ['uses' => 'BookController@upTest']);
 Route::post('book/details', ['uses' => 'BookController@show']);
 Route::get('book/details/{id}', ['uses' => 'BookController@details']);
 //Route::get('book/search', ['uses' => 'BookController@search']);
+Route::get('book/searchTst', ['uses' => 'BookController@searchTst']);
 
 //Route::resource('tags','TagController');
 //TAGS

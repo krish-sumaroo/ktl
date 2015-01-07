@@ -6,6 +6,7 @@ class BookController extends \BaseController {
 	private $entity = 'book';
 	public $directory = 'uploads';
 	private $maxImages = 5;
+	protected $book;
 	
 	public function __construct()
 	{
@@ -23,33 +24,21 @@ class BookController extends \BaseController {
 	 */
 	public function index()
 	{
-		print_r(Input::all());
+		$userId = 3;
 
-		$this->entity;
-		$books = Book::orderBy('created_at', 'desc')->get();
-
-		//search components here
-		// using only tags for now
-		// means to define all ranges for sliders, generic search form
-		//Book::
-
+		//search module
 		$ranges = DB::table('books')
                      ->select(DB::raw('max(`year`) as maxYr, min(`year`) as minYr, max(price) as maxPrice'))
                      ->get();
- 		//$minYear = DB::table('books')->min('year');
-		//$maxYear = DB::table('books')->max('year');
-		//$maxPrice = DB::table('books')->max('price');
-		//echo "min yr".$year;
-
 
 		$tags = Tag::entity('book')->validated()->orderBy('title')->lists('title','id');
-
-		/* hadcoded for now */
-		$userId = 3;
 
 		//get list fav for the entity book for a user
 		$cond = ['entity' => $this->entity, 'user_id' => $userId];
 		$favs = Favourite::where($cond)->lists('item_id');
+
+		$books = Book::orderBy('created_at', 'desc')->get();
+		// to add pagination and sorting
 
 		return View::make('books.index')
 			->with('books', $books)
@@ -59,8 +48,55 @@ class BookController extends \BaseController {
 			->nest('search', 'search.page', ['tags' => $tags, 'ranges' => $ranges[0]]);
 	}
 
+	public function searchTst()
+	{
+		//$searchArr = ['title' => 'sh', 'published' => '1900|2000'];
+		$data = Book::filter()->get();
+		print_r($data);
+	}
+
 	public function search()
 	{
+
+		User::with(array('Addresses' => function($query){
+                $query->where('town', '=', 'Smallville');
+            }));
+
+		$searchArr = array();
+		//compile search criteria
+
+		if(trim(Input::get('sh_title')) != '')
+		{
+			$searchArr['title'] = 'where title like "%'.Input::get(sh_title).'%"';
+		}
+
+		if(trim(Input::get('sh_author')) != '')
+		{
+			$searchArr['author'] = 'where author like "%'.Input::get('sh_author').'"';
+		}
+
+		$pubRange = explode('|', Input::get('pr_range'));
+		$searchArr['published'] = ' between '.$pubRange[0].' and '.$pubRange[1];
+
+		//$priceRange = explode('|',)
+
+		return View::make('books.search')
+			->with('books', $books)
+			->with('entity', $this->entity)
+			->with('tagsVals', $tags)
+			->with('favs', $favs);	
+	}
+
+	private function _getData()
+	{
+		
+
+		//search module
+		
+
+		/* hadcoded for now */
+		
+
 
 	}
 
