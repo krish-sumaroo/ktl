@@ -15,12 +15,29 @@ All books
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			<a href="{{Request::url()}}/{{$value->id}}">{{$value->title}}</a>
-			<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-danger removeFav " style="float: right;margin-left: 10px;">
-  				<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
-			</button>
-			<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-success addFav " style="float: right;">
-  				<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
-			</button>
+			<?php 
+	    		if (in_array($value->id, $favs)) {
+	    	?>
+				<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-danger removeFav " style="float: right;margin-left: 10px;">
+					<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+				</button>
+				<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-success addFav " style="float: right; display:none;">
+					<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+				</button>	
+   			<?php 
+				} else 
+				{
+			?>
+				<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-danger removeFav " style="float: right;margin-left: 10px; display:none;">
+					<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+				</button>
+				<button type="button" data-item="{{$value->id}}" class="btn btn-default btn-xs btn-success addFav " style="float: right;">
+					<span class="glyphicon glyphicon-heart-empty " aria-hidden="true"></span>
+				</button>					
+			<?php 
+				}
+			?>			
+			
 		</h3>
 		
 	</div>
@@ -39,7 +56,8 @@ All books
 	    	?>
 	    	@foreach($tags as $tag)
 	    	<span class="label label-success" >{{$tagsVals[$tag]}}</span>
-	    	@endforeach	    	
+	    	@endforeach  
+
 	    </div>
   	</div>  
 </div>

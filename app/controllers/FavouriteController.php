@@ -82,14 +82,15 @@ class FavouriteController extends \BaseController {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy()
 	{
-		$fav = Favourite::find(Input::get('id'));
-		$fav->delete();
-	}
+		/* hadcoded for now */
+		$userId = 3;
 
+		$cond = ['entity' => Input::get('entity'), 'user_id' => $userId, 'item_id' => Input::get('itemId')];
+		Favourite::where($cond)->delete();
+	}
 
 }

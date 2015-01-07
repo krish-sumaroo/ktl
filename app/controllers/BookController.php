@@ -44,17 +44,24 @@ class BookController extends \BaseController {
 
 		$tags = Tag::entity('book')->validated()->orderBy('title')->lists('title','id');
 
+		/* hadcoded for now */
+		$userId = 3;
+
+		//get list fav for the entity book for a user
+		$cond = ['entity' => $this->entity, 'user_id' => $userId];
+		$favs = Favourite::where($cond)->lists('item_id');
 
 		return View::make('books.index')
 			->with('books', $books)
 			->with('entity', $this->entity)
 			->with('tagsVals', $tags)
+			->with('favs', $favs)
 			->nest('search', 'search.page', ['tags' => $tags, 'ranges' => $ranges[0]]);
 	}
 
 	public function search()
 	{
-		print_r(Input::all());
+
 	}
 
 

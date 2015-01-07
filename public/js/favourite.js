@@ -5,8 +5,9 @@ $('.addFav').click(function() {
 	var element = $(this);
 	
 	//ajax to enable	
-	$.post(root_url+'fav/AddFavourite', {'itemId':$(this).data('item'), 'entity':$('#entity').val()}, function( data ) {
-		element.parent().children('.addFav').remove();
+	$.post(root_url+'fav/addFavourite', {'itemId':$(this).data('item'), 'entity':$('#entity').val()}, function( data ) {
+		element.parent().children('.addFav').hide();
+		element.parent().children('.removeFav').show();
 	});
 
 });
@@ -14,12 +15,11 @@ $('.addFav').click(function() {
 $('.removeFav').click(function() {
 	console.log("Remove from favourite");
 	var element = $(this);
-	//need to get favId to be able to remove
-
-	element.parent().children('.removeFav').remove()
-
-	//to do
-	//implement post to delete fav
+	//ajax to enable	
+	$.post(root_url+'fav/delFavourite', {'itemId':$(this).data('item'), 'entity':$('#entity').val()}, function( data ) {
+		element.parent().children('.removeFav').hide();
+		element.parent().children('.addFav').show();
+	});
 
 });
 
