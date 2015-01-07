@@ -23,6 +23,7 @@ class BookController extends \BaseController {
 	 */
 	public function index()
 	{
+		print_r(Input::all());
 
 		$this->entity;
 		$books = Book::orderBy('created_at', 'desc')->get();
@@ -30,6 +31,16 @@ class BookController extends \BaseController {
 		//search components here
 		// using only tags for now
 		// means to define all ranges for sliders, generic search form
+		//Book::
+
+		$ranges = DB::table('books')
+                     ->select(DB::raw('max(`year`) as maxYr, min(`year`) as minYr, max(price) as maxPrice'))
+                     ->get();
+ 		//$minYear = DB::table('books')->min('year');
+		//$maxYear = DB::table('books')->max('year');
+		//$maxPrice = DB::table('books')->max('price');
+		//echo "min yr".$year;
+
 
 		$tags = Tag::entity('book')->validated()->orderBy('title')->lists('title','id');
 
@@ -38,7 +49,12 @@ class BookController extends \BaseController {
 			->with('books', $books)
 			->with('entity', $this->entity)
 			->with('tagsVals', $tags)
-			->nest('search', 'search.page', ['tags' => $tags]);
+			->nest('search', 'search.page', ['tags' => $tags, 'ranges' => $ranges[0]]);
+	}
+
+	public function search()
+	{
+		print_r(Input::all());
 	}
 
 

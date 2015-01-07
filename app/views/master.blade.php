@@ -5,6 +5,7 @@
 		<title>Books</title>
 		<link rel="stylesheet" type="text/css" href="{{asset('bootstrap/css/bootstrap.css')}}">
 		<link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{asset('slider/css/slider.css')}}">
 		<script>
 		var root_url = "<?php echo Request::root(); ?>/";
 		</script>
