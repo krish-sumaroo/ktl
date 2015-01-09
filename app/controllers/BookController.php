@@ -288,5 +288,25 @@ join users u on u.id = b.user_id
 		//
 	}
 
+	public function listFav()
+	{
+		$userId = 3;
+		$cond = ['favourites.user_id' => $userId];
+
+		//get list book for a user
+		$listFavBook = DB::table('books')
+            ->join('favourites', 'books.id', '=', 'favourites.item_id')
+            ->where($cond)
+            ->select('books.id', 'books.title', 'books.author' , 'books.year', 'books.price')
+            ->get();
+
+        //get list fav for the entity book for a user
+		$condFav = ['entity' => $this->entity, 'user_id' => $userId];
+		$favs = Favourite::where($condFav)->lists('item_id');
+
+		return View::make('books.favList')
+			->with('listFavBook', $listFavBook)
+			->with('favs', $favs);
+	}
 
 }

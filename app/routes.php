@@ -54,6 +54,7 @@ Route::post('book/details', ['uses' => 'BookController@show']);
 Route::get('book/details/{id}', ['uses' => 'BookController@details']);
 //Route::get('book/search', ['uses' => 'BookController@search']);
 Route::get('book/searchTst', ['uses' => 'BookController@searchTst']);
+Route::get('book/listFav', ['uses' => 'BookController@listFav']);
 
 //Route::resource('tags','TagController');
 //TAGS
