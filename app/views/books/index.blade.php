@@ -48,7 +48,7 @@ All books
 	    		  array_shift($tags);
 	    	?>
 	    	@foreach($tags as $tag)
-	    	<span class="label label-success" >{{$tagsVals[$tag]}}</span>
+	    	<span class="label label-success" >{{$tag}}</span>
 	    	@endforeach  
 
 	    </div>

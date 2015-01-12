@@ -5,11 +5,6 @@ class Book extends Eloquent
 {
 	
 	public $entity;
-	private $filters = array('title' => array('type' => 'string', 'op' => 'LIKE'),
-						 'author' => array('type' => 'string', 'op' => 'LIKE'),
-						 'published' => array('type' => 'range', 'op' => 'BETWEEN', 'start' => 'pubStart', 'end' => 'pubEnd'),
-						 'price' => array('type' => 'range', 'op' => 'BETWEEN', 'start' => 'prStart', 'end' => 'prEnd')	
-	);
 
 	public static function boot()
     {
@@ -18,30 +13,35 @@ class Book extends Eloquent
         Book::observe(new PostObserver);
     }
 
-    public function scopeFilter($query)
+    public function scopeFilterRef($query)
     {
     	$query->where('title', 'LIKE', '%sh%');
     	$query->whereBetween('year', ['1981','2007']);
     	return $query;
     }
 
-    public static function filterXXX($filtersArr)
+    public function scopeFilter($query, $filterArr, $filterDef)
     {
-    	$model = $this;
-
-    	foreach ($filtersArr as $column => $value) {
-    		switch ($this->filters[$column]['type']) {
-    			case 'string':
-    				$model->where($column, 'LIKE', "%$value%");
-    				break;
-    			case 'range':
-    				$model->whereBetween($column, explode('|', $value));    			
-    			default:
-    				# code...
-    				break;
-    		}
-    	}
-
-    	return $model->get();
+        foreach ($filterArr as $column => $value) {
+            switch ($filterDef[$column]['type']) {
+                case 'string':
+                     $query->where($column,$filterDef[$column]['op'],'%'.$value.'%');
+                    break;
+                case 'range':
+                    $query->whereBetween($column, $value);
+                break;
+                
+                default:
+                    
+                break;
+            }
+        }
+        return $query;
     }
-}
+
+    public function scopeTagFilter($query, $tags)
+    {
+        $query->whereIn('id',$tags);
+        return $query;
+    }
+ }

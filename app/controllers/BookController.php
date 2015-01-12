@@ -7,6 +7,11 @@ class BookController extends \BaseController {
 	public $directory = 'uploads';
 	private $maxImages = 5;
 	protected $book;
+	private $filters = array('title' => array('type' => 'string', 'op' => 'LIKE'),
+						 'author' => array('type' => 'string', 'op' => 'LIKE'),
+						 'year' => array('type' => 'range', 'op' => 'BETWEEN', 'start' => 'pubStart', 'end' => 'pubEnd'),
+						 'price' => array('type' => 'range', 'op' => 'BETWEEN', 'start' => 'prStart', 'end' => 'prEnd')	
+	);
 	
 	public function __construct()
 	{
@@ -48,42 +53,66 @@ class BookController extends \BaseController {
 			->nest('search', 'search.page', ['tags' => $tags, 'ranges' => $ranges[0]]);
 	}
 
-	public function searchTst()
+	public function search()
 	{
-		//$searchArr = ['title' => 'sh', 'published' => '1900|2000'];
-		$data = Book::filter()->get();
+		$searchArr = ['title' => 'or', 'year' => ['1900','2000']];
+		$searchTags = ['16','6','9'];			
+
+		$data = Book::filter($searchArr, $this->filters)->tagFilter($searchTags)->orderBy('created_at', 'desc')->get();
+
+		//query post_tag with entity, tagsId to retrieve book id then pass to tagFilter to use as in(id1, id2, id3)		
+
+		//filter again for tags ie  Book::filter($searchArr, $this->filters)->filterTags(tagsIdArray)
 		print_r($data);
 	}
 
-	public function search()
+	public function searchTst()
 	{
-
-		User::with(array('Addresses' => function($query){
-                $query->where('town', '=', 'Smallville');
-            }));
 
 		$searchArr = array();
 		//compile search criteria
 
-		if(trim(Input::get('sh_title')) != '')
+		//validation for valid inputs !!!!important
+
+		if(Input::get('sh_title') != '')
 		{
-			$searchArr['title'] = 'where title like "%'.Input::get(sh_title).'%"';
+			$searchArr['title'] = Input::get('sh_title');
 		}
 
-		if(trim(Input::get('sh_author')) != '')
+		if(Input::get('sh_author') != '')
 		{
-			$searchArr['author'] = 'where author like "%'.Input::get('sh_author').'"';
+			$searchArr['author'] = Input::get('sh_author');
 		}
 
-		$pubRange = explode('|', Input::get('pr_range'));
-		$searchArr['published'] = ' between '.$pubRange[0].' and '.$pubRange[1];
+		if(Input::get('pub_range') != '')
+		{
+			$searchArr['year'] = explode('|', Input::get('pub_range'));
+		}
 
-		//$priceRange = explode('|',)
+		if(Input::get('pr_range') != '')
+		{
+			$searchArr['price'] = explode('|', Input::get('pr_range'));
+		}
+
+		//$searchQry = Book::filter($searchArr, $this->filters);->tagFilter($searchTags)->orderBy('created_at', 'desc')->get();
+
+		if(Input::get('schTags') != '')
+		{
+			$searchTags = explode('|', Input::get('pr_range'));
+			$entityWithTags = Tagpost::itemIdByTag($searchTags);
+			$searchQry->tagFilter($entityWithTags);
+		}
+
+		$searchRst = $searchQry->orderBy('created_at', 'desc')->get();
+
+		//Favourites
+		$cond = ['entity' => $this->entity, 'user_id' => $userId];
+		$favs = Favourite::where($cond)->lists('item_id');
+
 
 		return View::make('books.search')
 			->with('books', $books)
 			->with('entity', $this->entity)
-			->with('tagsVals', $tags)
 			->with('favs', $favs);	
 	}
 
