@@ -56,6 +56,7 @@ Route::get('book/details/{id}', ['uses' => 'BookController@details']);
 
 Route::get('book/searchTst', ['uses' => 'BookController@searchTst']);
 Route::get('book/listFav', ['uses' => 'BookController@listFav']);
+Route::post('book/edit', ['uses' => 'BookController@saveEdit']);
 
 //Route::resource('tags','TagController');
 //TAGS
@@ -72,6 +73,7 @@ Route::get('tags/admin', ['uses' => 'TagController@validate']);
 Route::get('post', ['uses' => 'PostController@index']);
 //Route::get('post/products', ['uses' => 'PostController@products']);
 Route::post('post/products', ['uses' => 'PostController@products']);
+Route::get('myposts',['uses' => 'PostController@postsByUser']);
 
 //MAGAZINES
 Route::resource('magazine','MagazineController');

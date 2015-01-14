@@ -32,5 +32,38 @@ public function test()
 	echo "here";
 }
 
+public function postsByUser()
+{
+	$userId = 3;
+	$entity = Post::where(['user_id' => $userId])->distinct()->lists('entity');
+
+	/* 1.retrieve each dataset from each entity
+	   2.call the result page for each entity
+	   3. a way to add up all the results
+	*/
+
+	$entityView = '';  
+	foreach ($entity as $entityModel) {
+	   	$cond = ['entity' => $entityModel, 'user_id' => $userId];
+		$favs = Favourite::where($cond)->lists('item_id');
+
+		$megaRstColl = $entityModel::where(['user_id' => $userId]);
+		$count = $megaRstColl->count();
+		$megaRst = $megaRstColl->orderBy('created_at','desc')->get();
+
+		$entityView .= View::make('posts.container')
+				->with('entity', $entityModel)
+				->with('count', $count)
+				->nest('results',$entityModel.'s'.'.results', ['results' => $megaRst, 'favs' => $favs, 'entity' => $entityModel,'owner'=> true])
+				->render();
+
+				//echo $entityView;
+	   }   
+
+	   return View::make('posts')->with('views', $entityView);
+
+	   //$myViewData = View::make('hello')->render(); 
+}
+
 
 }

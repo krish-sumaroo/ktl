@@ -10,5 +10,11 @@ class Tagpost extends Eloquent
         $query->where('tag_id',$tags);
         return $query->distinct()->lists('entity_id');
     }
+
+    public function scopeTagsByItemId($query, $itemId)
+    {
+    	$query->where('entity_id', $itemId);
+     	return $query;
+    }
 	
 }

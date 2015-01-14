@@ -36,7 +36,7 @@ class BookController extends \BaseController {
                      ->select(DB::raw('max(`year`) as maxYr, min(`year`) as minYr, max(price) as maxPrice'))
                      ->get();
 
-		$tags = Tag::entity('book')->validated()->orderBy('title')->lists('title','id');
+		$tags = Tag::entity('book')->validated()->orderBy('title')->get('title','id');
 
 		//get list fav for the entity book for a user
 		$cond = ['entity' => $this->entity, 'user_id' => $userId];
@@ -46,10 +46,9 @@ class BookController extends \BaseController {
 		// to add pagination and sorting
 
 		return View::make('books.index')
-			->with('books', $books)
 			->with('entity', $this->entity)
 			->with('tagsVals', $tags)
-			->with('favs', $favs)
+			->nest('results','books.results',['results' => $books, 'favs' => $favs, 'entity' => $this->entity, 'owner' => false])
 			->nest('search', 'search.page', ['tags' => $tags, 'ranges' => $ranges[0]]);
 	}
 
@@ -112,7 +111,6 @@ class BookController extends \BaseController {
 
 		return View::make('books.search')
 			->with('books', $books)
-			->with('entity', $this->entity)
 			->with('favs', $favs);	
 	}
 
@@ -203,16 +201,26 @@ class BookController extends \BaseController {
 	public function details($id)
 	{
 
-		//need to check if owner or not.
-		//if owner show edit else show view
+		/* need to check if owner or not.
+		   if owner show edit else show view
+		   -- transfered to posts view
+		*/
 
+		   $userId = 3;
 
 		try
 		{
 			$book = Book::findOrFail($id);
 
 			//get tags
-			$tags = Tag::entity('book')->validated()->orderBy('title')->get();	
+			$tags = Tag::entity('book')->validated()->userEntryDirty($userId)->orderBy('title')->get();	
+
+			//get registered tags if any
+			$savedTagsColl = Tagpost::tagsByItemId($id);
+
+			$savedTags = $savedTagsColl->count() > 0 ? $savedTagsColl->lists('tag_id') : [];
+
+			
 
 			$hash = Routines::getHash($this->entity, $id);
 			$directory = 'uploads/'.$hash;
@@ -222,20 +230,41 @@ class BookController extends \BaseController {
 			Session::put('created.id', $id);
 			Session::put('created.entity', $this->entity);
 
-			print_r(Session::all());
-
 			$files = File::files($directory);
 			return View::make('books.attributes')
-				->nest('view', 'books.view',['book' => $book])
+				->nest('view', 'books.edit',['book' => $book, 'entity' => $this->entity])
 				->nest('gallery', 'upload.gallery', ['url' => $directory, 'files' => $files])
 				->nest('upload','upload.add',['count' => $this->maxImages - count($files), 'defImg' =>'uploads/default.png'])
-				->nest('tag','tags.index2',['tags' => $tags,'savedTags' => $book->tags]);
+				->nest('tag','tags.index2',['tags' => $tags,'savedTags' => array_flip($savedTags)]);
 		}
 		catch(ModelNotFoundException $e)
 		{
 		    return Redirect::to('hello');
 		}	
 	}
+
+
+	public function saveEdit()
+	{
+		Log::info('posts =>'.print_r($_POST,true));
+
+		$userLoggedIn = 3;
+		/*  check if owner */
+		$bookObj = Book::find(Input::get('object'));
+		if($bookObj->user_id != $userLoggedIn)
+		{
+			'fuck off';
+			return false;
+		} else {
+			$bookObj->title = Input::get('title');
+			$bookObj->author = Input::get('author');
+			$bookObj->year = Input::get('year');
+			$bookObj->price = Input::get('price');
+			$bookObj->save();
+		} 
+
+
+	}	
 
 
 //query to get all posts with tags/users/fav

@@ -1,5 +1,14 @@
 $(function() {
 
+  $('#butEdit').click(function (){
+    var url = $('#actionUrl').val();
+    var elements = $('#frmEdit').serialize();
+
+    $.post( root_url+url+'/edit', $('#frmEdit').serialize(), function( data ) { 
+
+    },'json');
+  });
+
 
   $( "#assets" ).on( "change", ".imagesUp", function() {
 
